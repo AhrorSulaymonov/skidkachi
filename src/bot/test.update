@@ -1,0 +1,113 @@
+import {
+  Action,
+  Command,
+  Ctx,
+  Hears,
+  On,
+  Start,
+  Update,
+} from "nestjs-telegraf";
+import { Context, Markup } from "telegraf";
+import { BotService } from "./bot.service";
+
+@Update()
+export class BotUpdate {
+  constructor(private readonly botService: BotService) {}
+  @Start()
+  async onStart(@Ctx() ctx: Context) {
+    await this.botService.start(ctx);
+  }
+  @On("contact")
+  async onContact(@Ctx() ctx: Context) {
+    await this.botService.onContact(ctx);
+  }
+
+  // @On("photo")
+  // async onPhoto(@Ctx() ctx: Context) {
+  //   if ("photo" in ctx.message!) {
+  //     console.log(ctx.message.photo);
+  //     await ctx.replyWithPhoto(
+  //       String(ctx.message.photo[ctx.message.photo.length - 1].file_id)
+  //     );
+  //   }
+  // }
+
+  // @On("video")
+  // async onVideo(@Ctx() ctx: Context) {
+  //   if ("video" in ctx.message!) {
+  //     console.log(ctx.message.video);
+  //     await ctx.replyWithHTML(
+  //       String(ctx.message.video[ctx.message.video.duration])
+  //     );
+  //   }
+  // }
+
+  // @On("sticker")
+  // async onSticker(@Ctx() ctx: Context) {
+  //   if ("sticker" in ctx.message!) {
+  //     console.log(ctx.message.sticker);
+  //   }
+  // }
+
+  // @On("animation")
+  // async onAnimation(@Ctx() ctx: Context) {
+  //   if ("animation" in ctx.message!) {
+  //     console.log(ctx.message.animation);
+  //   }
+  // }
+
+  // @On("location")
+  // async onLocation(@Ctx() ctx: Context) {
+  //   if ("location" in ctx.message!) {
+  //     console.log(ctx.message.location);
+  //     await ctx.replyWithHTML(String(ctx.message.location.latitude));
+  //     await ctx.replyWithHTML(String(ctx.message.location.longitude));
+  //     await ctx.replyWithHTML(String(ctx.message.location.horizontal_accuracy));
+  //   }
+  // }
+
+  // @On("voice")
+  // async onVoice(@Ctx() ctx: Context) {
+  //   if ("voice" in ctx.message!) {
+  //     console.log(ctx.message.voice);
+  //     await ctx.replyWithHTML(String(ctx.message.voice.duration));
+  //     await ctx.replyWithHTML(String(ctx.message.voice.file_id));
+  //     await ctx.replyWithHTML(String(ctx.message.voice.mime_type));
+  //     await ctx.replyWithHTML(String(ctx.message.voice.file_size));
+  //     await ctx.replyWithAudio(String(ctx.message.voice.file_id));
+  //   }
+  // }
+
+  // @On("invoice")
+  // async onInvoice(@Ctx() ctx: Context) {
+  //   if ("invoice" in ctx.message!) {
+  //     console.log(ctx.message.invoice);
+  //     await ctx.replyWithHTML(String(ctx.message.invoice.currency));
+  //     await ctx.replyWithHTML(String(ctx.message.invoice.description));
+  //     await ctx.replyWithHTML(String(ctx.message.invoice.start_parameter));
+  //     await ctx.replyWithHTML(String(ctx.message.invoice.title));
+  //     await ctx.replyWithAudio(String(ctx.message.invoice.total_amount));
+  //   }
+  // }
+
+  // @On("document")
+  // async onDocument(@Ctx() ctx: Context) {
+  //   if ("document" in ctx.message!) {
+  //     console.log(ctx.message.document);
+  //     await ctx.replyWithHTML(String(ctx.message.document.file_id));
+  //     await ctx.replyWithHTML(String(ctx.message.document.file_name));
+  //     await ctx.replyWithHTML(String(ctx.message.document.file_size));
+  //     await ctx.replyWithHTML(String(ctx.message.document.mime_type));
+  //     await ctx.replyWithPhoto(String(ctx.message.document.thumbnail));
+  //   }
+  // }
+
+  // @Hears("hi")
+  // async onHear(@Ctx() ctx: Context) {
+  //   await ctx.replyWithHTML("Salom");
+  // }
+
+  // @Command("help")
+  // async onHelpCommand(@Ctx() ctx: Context) {
+  //   await ctx.replyWithHTML("Kutib tur");
+  // }
