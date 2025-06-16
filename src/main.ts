@@ -15,7 +15,7 @@ async function bootstrap() {
       origin: (origin, callback) => {
         const allowedOrigins = [
           "http://localhost:8000",
-          "http://localhost:3000",
+          "http://localhost:3034",
           "https://skidkachi.uz",
           "https://api.skidkachi.uz",
           "https://skidkachi.vercel.app",
