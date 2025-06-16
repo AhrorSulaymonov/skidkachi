@@ -3,6 +3,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  ServiceUnavailableException,
 } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
@@ -24,6 +25,7 @@ import { timestamp } from "rxjs";
 import { decode, encode } from "../helpers/crypto";
 import { Json } from "sequelize/types/utils";
 import { VerifyOtpDto } from "./dto/verify-otp.dto";
+import { SmsService } from "../sms/sms.service";
 
 @Injectable()
 export class UsersService {
@@ -33,7 +35,8 @@ export class UsersService {
 
     private readonly jwtService: JwtService,
     private readonly mailService: MailService,
-    private readonly botService: BotService
+    private readonly botService: BotService,
+    private readonly smsService: SmsService
   ) {}
 
   async getTokens(user: User) {
@@ -188,6 +191,19 @@ export class UsersService {
 
     // --------------------------SMS---------------------
 
+    const otp_message = `Assalamu alaykum, hurmatli foydalanuvchi, sizning "Phono" platformasidagi tasdiqlash kodingiz: (${otp})`;
+
+    const response = await this.smsService.sendSMS(phone_number, otp_message);
+    console.log(otp_message);
+    console.log(response);
+    if (response && response.status === 500) {
+      throw new ServiceUnavailableException("OTP yuborishda xatolik");
+    }
+
+    const message =
+      `OTP code has been send to ****` +
+      phone_number.slice(phone_number.length - 4);
+    //-------------------------------------------
     const now = new Date();
     const expiration_time = AddMinutesToDate(now, 5);
     await this.otpModel.destroy({ where: { phone_number } });
@@ -208,8 +224,10 @@ export class UsersService {
     if (!isSend) {
       throw new BadRequestException("Avval botdan ro'yxatdan o'ting");
     }
+
     return {
       message: "OTP botga yuborildi",
+      sms_message: message,
       verification_key: encodedData,
     };
   }

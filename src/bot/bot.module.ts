@@ -12,7 +12,14 @@ import { CarUpdate } from "./car.update";
 
 @Module({
   imports: [SequelizeModule.forFeature([Bot, Address, Car])],
-  providers: [AddressService, AddressUpdate, BotService, BotUpdate],
+  providers: [
+    CarService,
+    CarUpdate,
+    AddressService,
+    AddressUpdate,
+    BotService,
+    BotUpdate,
+  ],
   exports: [BotService],
 })
 export class BotModule {}

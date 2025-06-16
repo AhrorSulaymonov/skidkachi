@@ -242,6 +242,19 @@ export class BotService {
     }
   }
 
+  async admin_menu(ctx: Context, menu_text = `<b>Admin menyusi</b>`) {
+    try {
+      await ctx.reply(menu_text, {
+        parse_mode: "HTML",
+        ...Markup.keyboard([["Mijozlar", "Ustalar"]])
+          .oneTime()
+          .resize(),
+      });
+    } catch (error) {
+      console.log("Admin menyusida xatolik", error);
+    }
+  }
+
   async sendOtp(
     phone_number: string,
     OTP: string
@@ -264,3 +277,42 @@ export class BotService {
     }
   }
 }
+
+// async start(ctx: Context) {
+//   const _id = ctx.from?.id;
+//   const master = await this.userModel.findByPk(_id);
+//   if (!master) {
+//     await this.userModel.create({
+//       _id,
+//       name: ctx.from?.name,
+//       first_name: ctx.from?.first_name,
+//       last_name: ctx.from?.last_name,
+//       lang: ctx.from?.language_code,
+//     });
+//     await ctx.reply(
+//       `Iltimos, <b>😶‍🌫️ Botdan ro'yxatdan o'tish</b> tugmasini bosing`,
+//       {
+//         parse_mode: "HTML",
+//         ...Markup.keyboard(["😶‍🌫️ Botdan ro'yxatdan o'tish"])
+//           .resize()
+//           .oneTime(),
+//       }
+//     );
+//   } else if (!.status || master?.status) {
+//     await ctx.reply(
+//       `Iltimos, <b>😶‍🌫️ Botdan ro'yxatdan o'tish</b> tugmasini bosing`,
+//       {
+//         parse_mode: "HTML",
+//         ...Markup.keyboard(["😶‍🌫️ Botdan ro'yxatdan o'tish"])
+//           .resize()
+//           .oneTime(),
+//       }
+//     );
+//   } else {
+//     await this.bot.telegram.sendChatAction(_id!, "record_video");
+//     await ctx.reply(`Ushbu bot maishiy xizmatlar uchun`, {
+//       parse_mode: "HTML",
+//       ...Markup.removeKeyboard(),
+//     });
+//   }
+// }

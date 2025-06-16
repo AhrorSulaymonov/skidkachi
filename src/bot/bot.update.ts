@@ -11,6 +11,9 @@ import {
 import { callback } from "telegraf/typings/button";
 import { inlineKeyboard } from "telegraf/typings/markup";
 import { BotService } from "./bot.service";
+import { UseFilters, UseGuards } from "@nestjs/common";
+import { TelegrafExceptionFilter } from "../filters/telegraf-exception.filter";
+import { BotAdminGuard } from "../guards/bot.admin.guard";
 
 @Update()
 export class BotUpdate {
@@ -33,6 +36,13 @@ export class BotUpdate {
   @On("location")
   async onLocation(@Ctx() ctx: Context) {
     await this.botService.onLocation(ctx);
+  }
+
+  @UseGuards(BotAdminGuard)
+  @UseFilters(TelegrafExceptionFilter)
+  @Command("admin")
+  async onAdminCommand(@Ctx() ctx: Context) {
+    await this.botService.admin_menu(ctx, "Xush kelibsiz, Admin 👋");
   }
 
   @On("text")

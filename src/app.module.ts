@@ -43,6 +43,7 @@ import { Rewiew } from "./rewiews/models/rewiew.model";
 import { Car } from "./bot/models/cars.model";
 import { OtpModule } from "./otp/otp.module";
 import { Otp } from "./otp/models/otp.model";
+import { SmsModule } from './sms/sms.module';
 
 @Module({
   imports: [
@@ -106,6 +107,7 @@ import { Otp } from "./otp/models/otp.model";
     PhotoModule,
     RewiewsModule,
     OtpModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
